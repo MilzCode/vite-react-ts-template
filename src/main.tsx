@@ -1,16 +1,25 @@
-import { StrictMode } from 'react'
-import { createRoot } from 'react-dom/client'
-import './styles/tailwind.css'
-import { createBrowserRouter,RouterProvider } from 'react-router-dom'
+import ReactDOM from 'react-dom/client';
+import { BrowserRouter } from 'react-router-dom';
+import { useRoutes } from 'react-router-dom';
+import './styles/tailwind.css';
 //@ts-ignore
-import routes from '~react-pages'
+import routes from '~react-pages';
 
-const router = createBrowserRouter(routes)
+function App() {
+  const element = useRoutes(routes);
+  return <>{element}</>;
+}
 
+const container = document.getElementById('root') as HTMLElement;
 //@ts-ignore
-
-createRoot(document.getElementById('root')).render(
-  <StrictMode>
-    <RouterProvider router={router}/>
-  </StrictMode>,
-)
+if (!container._reactRootContainer) {
+  // Crea la raíz solo si no existe una previamente
+  const root = ReactDOM.createRoot(container);
+  root.render(
+    <BrowserRouter>
+      <App />
+    </BrowserRouter>
+  );
+} else {
+  console.warn("La raíz ya ha sido creada.");
+}
